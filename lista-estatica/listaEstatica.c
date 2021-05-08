@@ -144,17 +144,29 @@ int remover_meio(Lista* li, int cpf){
   li->qtd--;
   return 1;
 }
-//Consultando na lista
-int consultar_lista(Lista* li, struct pessoa dados){
+//Consultando na lista por valor
+int consultar_lista_valor(Lista* li, int cpf, struct pessoa *dados){
   if(li == NULL){
     return 0;
   } else if(lista_vazia(li)){
     return 0;
   }
   for(int i = 0; i < li->qtd; i++){
-    if(li->dados[i].cpf == dados.cpf){
+    if(li->dados[i].cpf == cpf){
+      *dados = li->dados[i];
       return 1;
     }
   }
   return 0;
+};
+//Consultando na lista por posição
+int consultar_lista_pos(Lista* li, int pos, struct pessoa *dados){
+  if(li == NULL || pos > li->qtd || pos <= 0 ){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  *dados = li->dados[pos-1];
+  return 1;
 };

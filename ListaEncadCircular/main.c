@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include <stdio.h>
-#include "listaEstatica.h"
+#include "listaEncadCircular.h"
 
 int main(void) {
   Lista *li;
   Pessoa alguem;
   Pessoa human;
-  char nomeVar[30] = "Emerson";
 
+  char nomeVar[30] = "Emerson";
   human.nome[29] = nomeVar[29];
   human.idade = 19;
-  human.cpf = 12345678;
+  human.cpf = 38758756;
 
   li = criar_lista();
   int x = inserir_inicio(li, human);
@@ -25,7 +25,7 @@ int main(void) {
 
   int t = remover_inicio(li);
   printf("Remoção no inicio da lista: %d\n", t);
-  int w = remover_final(li);
+  int w = remover_fim(li);
   printf("Remoção no fim da lista: %d\n", w);
   int k = remover_meio(li, human.cpf);
   printf("Remoção no meio da lista: %d\n", k);
@@ -37,10 +37,10 @@ int main(void) {
   printf("Lista cheia: %d\n", n);
   int a = lista_vazia(li);
   printf("Lista vazia: %d\n", a);
-  int h = consultar_lista_valor(li, human.cpf, &alguem);
+  int h = buscar_lista_valor(li, human.cpf, &alguem);
   printf("Consultar na lista valor: %d\n", h);
   printf("%d\n", alguem.cpf);
-  int p = consultar_lista_pos(li, 1, &alguem);
+  int p = buscar_lista_pos(li, 1, &alguem);
   printf("Consultar na lista posição: %d\n", p);
   printf("%d\n", alguem.cpf);
 

@@ -22,6 +22,7 @@ int inserir_meio(Lista* li, struct pessoa dados);
 int remover_inicio(Lista* li);
 int remover_meio(Lista* li, int);
 int remover_final(Lista* li);
-int consultar_lista(Lista* li, struct pessoa dados);
+int consultar_lista_valor(Lista* li, int, struct pessoa *dados);
+int consultar_lista_pos(Lista* li, int, struct pessoa *dados);
 
 #endif
