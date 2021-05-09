@@ -6,6 +6,7 @@ struct lista {
   int qtd;
   struct pessoa dados[MAX];
 };
+
 //criando lista
 Lista* criar_lista(){
   Lista *li;
@@ -49,6 +50,7 @@ int lista_vazia(Lista* li){
     return 0;
   }
 }
+
 //inserindo elemento no inicio
 int inserir_inicio(Lista* li, struct pessoa dados){
   if(li == NULL){
@@ -70,6 +72,7 @@ int inserir_inicio(Lista* li, struct pessoa dados){
   li->qtd++;
   return 1;
 }
+
 //inserindo elemento no fim
 int inserir_final(Lista* li, struct pessoa dados){
   if(li == NULL){
@@ -169,4 +172,43 @@ int consultar_lista_pos(Lista* li, int pos, struct pessoa *dados){
   }
   *dados = li->dados[pos-1];
   return 1;
+};
+
+Lista* inverter_lista(Lista* li){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp;
+  l2cp = criar_lista();
+  for(int i = 0; i < li->qtd; i++){
+    inserir_inicio(l2cp, li->dados[i]);
+  }
+  return l2cp;
+};
+
+Lista* remover_repetidos(Lista* li){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp = criar_lista();
+  l2cp = li;
+  for(int i = 0; i < li->qtd; i++){
+    int count = 0;
+    for(int o = 0; o < li->qtd; o++){
+      if(li->dados[i].cpf == l2cp->dados[o].cpf){
+        count++;
+        if(count >= 2){
+          count = 0;
+          remover_meio(l2cp, l2cp->dados[o].cpf);
+        }
+      };
+    }
+  }
+  return l2cp;
 };

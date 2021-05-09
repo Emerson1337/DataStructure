@@ -3,7 +3,6 @@
 #include "listaEncadCircular.h"
 
 struct elemento{
-  struct elemento *ant;
   struct pessoa dados;
   struct elemento *prox;
 };
@@ -21,13 +20,14 @@ Lista* criar_lista(){
 
 //Excluindo lista
 void destruir_lista(Lista* li){
-  if(li != NULL){
-    Elem* no;
-    while((*li) != NULL){
-      no = *li;
-      *li = (*li)->prox;
-      free(no);
+  if(!lista_vazia(li)){
+    Elem *aux, *no = *li;
+    while((*li) != no->prox){
+      aux = no;
+      no = no->prox;
+      free(aux);
     }
+    free(no);
     free(li);
   }
 }
@@ -39,7 +39,7 @@ int lista_cheia(Lista *li){
 
 //Verificando se a lista está vazia
 int lista_vazia(Lista *li){
-  if(li == NULL || *li == NULL ){
+  if(li == NULL || (*li) == NULL ){
     return 1;
   }
   return 0;
@@ -50,12 +50,16 @@ int tamanho_lista(Lista *li){
   if(li == NULL){
     return 0;
   }
+  if(lista_vazia(li)){
+    return 0;
+  }
   Elem* no = *li;
   int count = 0;
-  while(no != NULL){
-    count ++;
+  do{
+    count++;
     no = no->prox;
-  };
+  } while(no != (*li));
+
   return count;
 };
 
@@ -64,19 +68,23 @@ int inserir_inicio(Lista* li, Pessoa dados){
     if(li == NULL){
       return 0; //se a lista nao existir
     }
-
     Elem* no = (Elem*) malloc(sizeof(Elem));
     if(no == NULL){ 
       return 0;
     }
-
-    no->ant = NULL;
     no->dados = dados;
-    no->prox = (*li);
-    if((*li) != NULL){
-      (*li)->ant = no; //apontando o primeiro elemento
-    }                  //depois do primeiro, depois  
-    *li = no;          //mudando o point do 1º elem.
+    if(lista_vazia(li)){
+      *li = no;
+      no->prox = no;
+    } else {
+      no->prox = *li;
+      Elem* aux = *li;
+      while(aux->prox != (*li)){
+        aux = aux->prox;
+      }
+      aux->prox = no;
+      (*li) = no;
+    }
     return 1;
 }
 
@@ -90,18 +98,17 @@ int inserir_final(Lista* li, Pessoa dados){
     return 0;
   }
   no->dados = dados;
-  no->prox = NULL;
   if(lista_vazia(li)){
-    no->ant = NULL;
-    *li = no; 
-    return 1;
+     *li = no;
+      no->prox = no;
+  } else {
+      no->prox = *li;
+      Elem* aux = *li;
+      while(aux->prox != (*li)){
+        aux = aux->prox;
+      }
+      aux->prox = no;
   }
-  Elem* aux = *li;
-  while(aux->prox != NULL){
-    aux = aux->prox;
-  }
-  aux->prox = no;
-  no->ant = aux;
   return 1;
 }
 
@@ -114,34 +121,31 @@ int inserir_meio(Lista* li, Pessoa dados){
   if(no == NULL){
     return 0;
   }
+  no->dados = dados;
   if(lista_vazia(li)){ //se for vazia
-    no->prox = NULL;
-    no->dados = dados;
-    no->ant = NULL;
+    no->prox = no;
     *li = no;
-    return 1;
   } else {
-    Elem *ant, *atual = *li;
-    no->dados = dados;
-    while(atual != NULL && atual->dados.cpf < dados.cpf){
+    //verificando se será inserido no começo
+    if((*li)->dados.cpf > dados.cpf){
+      Elem* aux = *li;
+      while(aux->prox != (*li)){
+        aux = aux->prox;
+      }
+      aux->prox = no;
+      no->prox = (*li);
+      *li = no;
+      return 1;
+    }
+    Elem *ant = *li, *atual = (*li)->prox;
+    while(atual != (*li) && atual->dados.cpf < dados.cpf){
       ant = atual;
       atual = atual->prox;
     }
-    if(atual->ant == NULL){
-      no->ant = NULL;
-      no->prox = (*li);
-      (*li)->ant = no;
-      *li = no;
-    } else {
-      no->ant = ant;
-      no->prox = atual;
-      ant->prox = no;
-      if(atual != NULL){
-        atual->ant = no;
-      }
-    }
-    return 1;
+    no->prox = atual;
+    ant->prox = no;
   }
+  return 1;
 }
 
 //Removendo elementos do inicio da lista
@@ -152,12 +156,17 @@ int remover_inicio(Lista* li){
   if(lista_vazia(li)){
     return 0;
   }
-    Elem* no = (*li);
-    *li = no->prox; 
-  if((*li) != NULL){
-    no->prox->ant = NULL;  
+  if((*li)->prox == *li){ //verificando se temos apenas 1 elemento.
+    free(*li);
+    *li = NULL;
+    return 1;
   }
-  
+  Elem *no = *li, *atual = *li;
+  while(atual->prox != (*li)){
+    atual = atual->prox;
+  }
+  atual->prox = no->prox;
+  *li = no->prox;
   free(no);
   return 1;
 }
@@ -170,17 +179,17 @@ int remover_fim(Lista* li){
   if(lista_vazia(li)){
     return 0;
   }
-  Elem* no = *li;
-  while(no->prox != NULL){
+  if((*li)->prox == *li){ //verificando se temos apenas 1 elemento.
+    free(*li);
+    *li = NULL;
+    return 1;
+  }
+  Elem* no = *li, *ant = *li;
+  while(no->prox != (*li)){
+    ant = no;
     no = no->prox;
   }
-
-  if(no->ant == NULL){
-    *li = NULL; //só um elemento existe, logo, removemos ele
-  } else {
-    no->ant->prox = NULL; //dizendo que o elemento anterior ao ultimo, agora é o ultimo.
-  }
-
+  ant->prox = *li;
   free(no);
   return 1;
 }
@@ -194,24 +203,32 @@ int remover_meio(Lista* li, int cpf){
     return 0;
   }
   Elem* no = *li;
-  while(no != NULL && no->dados.cpf != cpf){
+  //verificando se será removido o inicio
+  if(no->dados.cpf == cpf){
+    if((*li)->prox == *li){ //verificando se temos apenas 1 elemento.
+      free(no);
+      *li = NULL;
+      return 1;
+    }
+    Elem* aux = *li;
+    while(aux->prox != (*li)){
+      aux = aux->prox;
+    }
+    aux->prox = (*li)->prox;
+    *li = (*li)->prox;
+    free(no);
+    return 1;
+  }
+  Elem* ant;
+  no = no->prox;
+  while(no != (*li) && no->dados.cpf != cpf){
+    ant = no;
     no = no->prox;
   }
-  if(no == NULL){
+  if(no == *li){
     return 0; //not found
   }
-  if(no->ant == NULL){
-    *li = no->prox;
-    (*li)->ant = NULL;
-  } else {
-    no->ant->prox = no->prox;
-  }
-  if(no->prox == NULL){
-    no->ant->prox = NULL;
-  } else {
-    no->prox->ant = no->ant;
-  }
-
+  ant->prox = no->prox;
   free(no);
   return 1;
 }
@@ -225,12 +242,12 @@ int buscar_lista_valor(Lista* li, int cpf, struct pessoa *dados){
     return 0;
   }
   Elem* no = *li;
-  while(no != NULL && no->dados.cpf != cpf){
+  while(no->prox != (*li) && no->dados.cpf != cpf){
     no = no->prox;
   }
-  if(no == NULL){
+  if(no->dados.cpf != cpf){
     return 0;
-  } 
+  }
   *dados = no->dados;
   return 1;
 }
@@ -246,15 +263,65 @@ int buscar_lista_pos(Lista* li, int pos, struct pessoa *dados){
   Elem* no = *li;
   int i = 1;
 
-  while(no != NULL && i < pos){
+  while(no->prox != (*li) && i < pos){
     no = no->prox;
     i++;
   }
 
-  if(no == NULL){
+  if(i != pos){
     return 0;
   }
 
   *dados = no->dados;
   return 1;
 }
+
+int inverter_lista(Lista* li, Lista *l2){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp;
+  l2cp = criar_lista();
+  Elem* atual = *li;
+  while(atual->prox != *li){
+    inserir_inicio(l2cp , (atual)->dados);
+    atual = atual->prox;
+  }
+  inserir_inicio(l2cp , (atual)->dados); //INSERINDO O ÚLTIMO
+  *l2 = *l2cp;
+  free(l2cp);
+  return 1;
+};
+
+int remover_repetidos(Lista* li, Lista *l2){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp;
+  l2cp = criar_lista();
+  *l2cp = *li;
+  Elem* atual = (*li)->prox, *aux = (*li)->prox;
+
+  while(atual != *li){
+    int count = 0;
+    while(aux != *li){
+      if(atual->dados.cpf == aux->dados.cpf){
+        count++;
+        if(count >= 2){
+           printf("entrei");
+          remover_meio(l2cp, aux->dados.cpf);
+        }
+      }
+      aux = aux->prox;
+    }
+    atual = atual->prox;
+  }
+  *l2 = *l2cp;
+  return 1;
+};

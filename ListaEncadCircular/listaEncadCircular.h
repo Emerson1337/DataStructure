@@ -1,7 +1,6 @@
 #ifndef LISTA_ENCAD_CIRCULAR_H
 #define LISTA_ENCAD_CIRCULAR_H
 
-#define MAX 100
 struct pessoa {
   int idade;
   char nome[30];
@@ -24,6 +23,8 @@ int remover_fim(Lista* li);
 int remover_meio(Lista* li, int);
 int buscar_lista_valor(Lista* li, int, Pessoa *dados);
 int buscar_lista_pos(Lista* li, int, Pessoa *dados);
+int inverter_lista(Lista* li, Lista *l2);
+int remover_repetidos(Lista* li, Lista *l2);
 
 
 #endif

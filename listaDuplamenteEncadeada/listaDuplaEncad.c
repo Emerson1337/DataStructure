@@ -127,7 +127,7 @@ int inserir_meio(Lista* li, Pessoa dados){
       ant = atual;
       atual = atual->prox;
     }
-    if(atual->ant == NULL){
+    if(atual == *li){
       no->ant = NULL;
       no->prox = (*li);
       (*li)->ant = no;
@@ -258,3 +258,51 @@ int buscar_lista_pos(Lista* li, int pos, struct pessoa *dados){
   *dados = no->dados;
   return 1;
 }
+
+int inverter_lista(Lista* li, Lista *l2){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp;
+  l2cp = criar_lista();
+  Elem* atual = *li;
+  while(atual->prox != NULL){
+    inserir_inicio(l2cp , (atual)->dados);
+    atual = atual->prox;
+  }
+  inserir_inicio(l2cp , (atual)->dados);
+  *l2 = *l2cp;
+  free(l2cp);
+  return 1;
+};
+
+int remover_repetidos(Lista* li, Lista *l2){
+  if(li == NULL){
+    return 0;
+  }
+  if(lista_vazia(li)){
+    return 0;
+  }
+  Lista* l2cp;
+  l2cp = criar_lista();
+  *l2cp = *li;
+  Elem* atual = *li, *aux = *li;
+  while(atual != NULL){
+    int count = 0;
+    while(aux != NULL){
+      if(atual->dados.cpf == aux->dados.cpf){
+        count++;
+        if(count >= 2){
+          remover_meio(l2cp, aux->dados.cpf);
+        }
+      }
+      aux = aux->prox;
+    }
+    atual = atual->prox;
+  }
+  *l2 = *l2cp;
+  return 1;
+};
