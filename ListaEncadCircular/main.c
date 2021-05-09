@@ -61,7 +61,7 @@ int main(void) {
   printf("Quem é o segundo elemento: %d\n", alguem.cpf);
   int ok = buscar_lista_pos(&l2, 3, &alguem);
   if(ok)
-    printf("Quem é o terceiro elemento (qtd inacessível): %d\n", alguem.cpf);
+    printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
   printf("tamanho da lista depois de remover repetidos: %d\n\n", tamanho_lista(&l2));
   
 

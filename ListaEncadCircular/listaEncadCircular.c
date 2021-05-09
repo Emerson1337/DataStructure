@@ -304,23 +304,17 @@ int remover_repetidos(Lista* li, Lista *l2){
     return 0;
   }
   Lista* l2cp;
+  Pessoa tem;
   l2cp = criar_lista();
-  *l2cp = *li;
-  Elem* atual = (*li)->prox, *aux = (*li)->prox;
-
-  while(atual != *li){
-    int count = 0;
-    while(aux != *li){
-      if(atual->dados.cpf == aux->dados.cpf){
-        count++;
-        if(count >= 2){
-           printf("entrei");
-          remover_meio(l2cp, aux->dados.cpf);
-        }
-      }
-      aux = aux->prox;
+  Elem* atual = (*li), *aux = (*li);
+  while(atual->prox != *li){
+    if(!buscar_lista_valor(l2cp, atual->dados.cpf, &tem)){
+      inserir_final(l2cp, atual->dados);
     }
     atual = atual->prox;
+  }
+  if(!buscar_lista_valor(l2cp, atual->dados.cpf, &tem)){
+      inserir_final(l2cp, atual->dados);
   }
   *l2 = *l2cp;
   return 1;
