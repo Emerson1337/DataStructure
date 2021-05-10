@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "listaEncadCircular.h"
 
+//PARA TESTAR CADA FUNCIONALIDADE, DESCOMENTE OS TRECHOS DE CÓDIGO ABAIXO DO COMENTÁRIO QUE O EXPLICA.
+
 int main(void) {
   Lista *li;
   Lista l2;
@@ -10,8 +12,6 @@ int main(void) {
   Pessoa human2;
   Pessoa human3;
   Pessoa human4;
-
-
 
   char nomeVar[30] = "Emerson";
   human.nome[29] = nomeVar[29];
@@ -49,7 +49,7 @@ int main(void) {
   buscar_lista_pos(li, 3, &alguem);
   printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
   buscar_lista_pos(li, 4, &alguem);
-  printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
+  printf("Quem é o quarto elemento: %d\n", alguem.cpf);
   printf("tamanho da lista antes de remover repetidos: %d\n\n", tamanho_lista(li));
 
   remover_repetidos(li, &l2);
@@ -63,8 +63,11 @@ int main(void) {
   if(ok)
     printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
   printf("tamanho da lista depois de remover repetidos: %d\n\n", tamanho_lista(&l2));
-  
 
+  int verif = verificar_igualdade(li, l2);
+  printf("*Comparando as duas listas*\n");
+  printf("São iguais: %d\n", verif);
+  
   //UTILIZADOS PARA TESTAR INVERSÃO DE LISTA
 
   // //olhando os elementos da lista Li

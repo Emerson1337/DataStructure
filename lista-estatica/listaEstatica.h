@@ -27,6 +27,8 @@ int consultar_lista_valor(Lista* li, int, struct pessoa *dados);
 int consultar_lista_pos(Lista* li, int, struct pessoa *dados);
 Lista* inverter_lista(Lista* li);
 Lista* remover_repetidos(Lista* li);
+int verificar_igualdade(Lista* li, Lista* l2);
+
 
 
 

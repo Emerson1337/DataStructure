@@ -196,19 +196,38 @@ Lista* remover_repetidos(Lista* li){
   if(lista_vazia(li)){
     return 0;
   }
+  Pessoa tem;
   Lista* l2cp = criar_lista();
-  l2cp = li;
-  for(int i = 0; i < li->qtd; i++){
-    int count = 0;
-    for(int o = 0; o < li->qtd; o++){
-      if(li->dados[i].cpf == l2cp->dados[o].cpf){
-        count++;
-        if(count >= 2){
-          count = 0;
-          remover_meio(l2cp, l2cp->dados[o].cpf);
-        }
-      };
-    }
+  for(int i = 0; i < li->qtd; i++){ //passando pelos elementos da lista li.
+    if(!consultar_lista_valor(l2cp, (*li).dados[i].cpf, &tem)){
+      //verificando se existe mais que um elemento repetido.
+      inserir_final(l2cp, (*li).dados[i]);
+    };
   }
+
   return l2cp;
+};
+//verificando se as listas são iguais
+int verificar_igualdade(Lista* li, Lista* l2){
+  if(li == NULL){
+    return 0;
+  };
+  if(l2 == NULL){
+    return 0;
+  };
+  int count = 0;
+  if(li->qtd == l2->qtd){
+    for(int i = 0; i < li->qtd; i++){
+      if(li->dados[i].cpf == l2->dados[i].cpf){
+        count ++;
+      }
+    }
+    if(count == li->qtd){
+      return 1;
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
 };

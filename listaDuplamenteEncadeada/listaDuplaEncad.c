@@ -287,22 +287,45 @@ int remover_repetidos(Lista* li, Lista *l2){
     return 0;
   }
   Lista* l2cp;
+  Pessoa tem;
   l2cp = criar_lista();
-  *l2cp = *li;
-  Elem* atual = *li, *aux = *li;
-  while(atual != NULL){
-    int count = 0;
-    while(aux != NULL){
-      if(atual->dados.cpf == aux->dados.cpf){
-        count++;
-        if(count >= 2){
-          remover_meio(l2cp, aux->dados.cpf);
-        }
-      }
-      aux = aux->prox;
+  Elem* atual = (*li);
+  while(atual->prox != NULL){
+    if(!buscar_lista_valor(l2cp, atual->dados.cpf, &tem)){
+      inserir_final(l2cp, atual->dados); //verificando se o elemento existe antes de inserir na nova lista.
     }
     atual = atual->prox;
   }
+  //verificando se o último valor está na lista para inseri-lo na lista. Caso já esteja, não é inserido.
+  if(!buscar_lista_valor(l2cp, atual->dados.cpf, &tem)){
+      inserir_final(l2cp, atual->dados);
+  }
   *l2 = *l2cp;
+  return 1;
+};
+
+//verificando se as listas são iguais
+int verificar_igualdade(Lista* li, Lista l2){
+if(li == NULL){
+    return 0;
+  };
+  if(l2 == NULL){
+    return 0;
+  };
+  Elem* no = *li, *aux = l2; //pegando as duas listas
+  if(tamanho_lista(li) != tamanho_lista(&l2)){ //verificando se são do mesmo tamanho, se nao, já sabemos que são diferentes.
+    return 0;
+  }
+  while(no->prox != NULL){ //percorrendo toda a lista até o último elemento
+    if(no->dados.cpf != aux->dados.cpf){
+      return 0;
+    }
+    no = no->prox;
+    aux = aux->prox;
+  }
+  //fazendo a ultima verificação para o ultimo elemento.
+  if(no->dados.cpf != aux->dados.cpf){
+      return 0;
+  }
   return 1;
 };

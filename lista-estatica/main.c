@@ -4,7 +4,6 @@
 
 //PARA TESTAR CADA FUNCIONALIDADE, DESCOMENTE OS TRECHOS DE CÓDIGO ABAIXO DO COMENTÁRIO QUE O EXPLICA.
 
-
 int main(void) {
   Lista *li;
   Lista *l2;
@@ -12,7 +11,7 @@ int main(void) {
   Pessoa human;
   Pessoa human2;
   Pessoa human3;
-
+  Pessoa human4;
 
   char nomeVar[30] = "Emerson";
   human.nome[29] = nomeVar[29];
@@ -28,11 +27,17 @@ int main(void) {
   human3.nome[29] = nomeVar[29];
   human3.idade = 19;
   human3.cpf = 99999999;
+  char teste3[30] = "Lula";
+  human4.nome[29] = nomeVar[29];
+  human4.idade = 19;
+  human4.cpf = 99999999;
 
   li = criar_lista();
   inserir_inicio(li, human);
   inserir_final(li, human2);
   inserir_final(li, human3);
+  inserir_final(li, human4);
+
   
   //UTILIZADOS PARA TESTAR REMOÇÃO DE REPETIDOS
 
@@ -44,6 +49,8 @@ int main(void) {
   printf("Quem é o segundo elemento: %d\n", alguem.cpf);
   consultar_lista_pos(li, 3, &alguem);
   printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
+  consultar_lista_pos(li, 4, &alguem);
+  printf("Quem é o quarto elemento: %d\n", alguem.cpf);
   printf("tamanho da lista antes de remover repetidos: %d\n\n", tamanho_lista(li));
 
   l2 = remover_repetidos(li);
@@ -53,18 +60,14 @@ int main(void) {
   printf("Quem é o primeiro elemento: %d\n", alguem.cpf);
   consultar_lista_pos(l2, 2, &alguem);
   printf("Quem é o segundo elemento: %d\n", alguem.cpf);
-  consultar_lista_pos(l2, 3, &alguem);
-  printf("Quem é o terceiro elemento (qtd inacessível): %d\n", alguem.cpf);
+  int ok = consultar_lista_pos(l2, 3, &alguem);
+  if(ok)
+    printf("Quem é o terceiro elemento (qtd inacessível): %d\n", alguem.cpf);
   printf("tamanho da lista depois de remover repetidos: %d\n\n", tamanho_lista(l2));
 
-  printf("Mostrando li:\n");
-  consultar_lista_pos(li, 1, &alguem);
-  printf("Quem é o primeiro elemento: %d\n", alguem.cpf);
-  consultar_lista_pos(li, 2, &alguem);
-  printf("Quem é o segundo elemento: %d\n", alguem.cpf);
-  consultar_lista_pos(li, 3, &alguem);
-  printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
-  printf("tamanho da lista antes de remover repetidos: %d\n\n", tamanho_lista(li));
+  int verif = verificar_igualdade(li, l2);
+  printf("*Comparando as duas listas*\n");
+  printf("São iguais: %d\n", verif);
   
   //UTILIZADOS PARA TESTAR INVERSÃO DE LISTA
 

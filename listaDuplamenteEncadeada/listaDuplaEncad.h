@@ -26,6 +26,8 @@ int buscar_lista_valor(Lista* li, int, Pessoa *dados);
 int buscar_lista_pos(Lista* li, int, Pessoa *dados);
 int inverter_lista(Lista* li, Lista *l2);
 int remover_repetidos(Lista* li, Lista *l2);
+int verificar_igualdade(Lista* li, Lista l2);
+
 
 
 
