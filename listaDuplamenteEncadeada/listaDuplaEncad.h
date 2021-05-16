@@ -1,7 +1,6 @@
 #ifndef LISTA_DUPLA_ENCAD_H
 #define LISTA_DUPLA_ENCAD_H
 
-#define MAX 100
 struct pessoa {
   int idade;
   char nome[30];
