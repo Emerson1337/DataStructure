@@ -8,6 +8,7 @@ int main(void) {
   Fila *resultado;
   Alguem human;
   Alguem human2;
+  Alguem human3;
   Alguem alguem;
 
   char nomeVar[30] = "Emerson";
@@ -20,12 +21,19 @@ int main(void) {
   human2.idade = 25;
   human2.cpf = 12345678;
 
+  char nomeVar3[30] = "Anaaa Luiza";
+  human3.nome[29] = nomeVar[29];
+  human3.idade = 25;
+  human3.cpf = 454544542;
+
   fi = criar_fila();
 
   int x = inserir_fila(fi, human);
   printf("Inserção na fila: %d\n", x);
   int z = inserir_fila(fi, human2);
   printf("Inserção na fila: %d\n", z);
+  int zf = inserir_fila(fi, human3);
+
 
   consultar_fila(fi, &alguem);
   printf("CPF da primeira pessoa da lista: %d\n", alguem.cpf);
@@ -34,7 +42,7 @@ int main(void) {
 
   resultado = inverter_fila(fi);
   printf("\n*FILA INVERTIDA*\n\n");
-
+  mostrar(resultado);
   consultar_fila(resultado, &alguem);
   printf("CPF da primeira pessoa da lista: %d\n", alguem.cpf);
   printf("Tamanho da fila depois da inversão: %d\n\n", 

@@ -149,14 +149,21 @@ Fila* inverter_fila(Fila* fi){
   if(fi == NULL || fila_vazia(fi)){
     return 0;
   }
-  Elem *ant = NULL, *atual = fi->inicio, *proximo;
+  Elem *ant = NULL, *atual = fi->inicio, *proximo, *primeiroElemento = fi->inicio;
   while(atual != NULL){
     proximo = atual->prox; //apenas salvando o prox do atual.
     atual->prox = ant; //o próximo deste elemento será o anterior, se for o primeiro elemento da lista, será NULL.
     ant = atual; //apenas armazenando o atual para apontarmos no próximo loop
     atual = proximo; //percorrendo a fila
   }
-
+  fi->fim = primeiroElemento; //definindo que o fim da lista agora é o antigo primeiro.
   fi->inicio = ant; //reconfigurando o inicio da lista
   return fi;
+};
+void mostrar(Fila *fi){
+  Elem* no = fi->inicio;
+  while(no != NULL){
+    printf("%d\n", no->dados.cpf);
+    no = no->prox;
+  }
 };

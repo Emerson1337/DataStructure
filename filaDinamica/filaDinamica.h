@@ -18,6 +18,7 @@ void destruir_fila(Fila *fi);
 int tamanho_fila(Fila *fi);
 int fila_cheia(Fila *fi);
 int fila_vazia(Fila *fi);
+void mostrar(Fila *fi);
 
 Fila* copiar_fila(Fila* fi);
 Fila* concatenar_filas(Fila* fi, Fila* fi2);
