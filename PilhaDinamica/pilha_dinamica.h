@@ -18,8 +18,9 @@ int remover_pilha(Pilha *pi);
 int consultar_pilha(Pilha *pi, struct pessoa *dados);
 Pilha* inverter_pilha(Pilha *pi);
 int pilhas_iguais(Pilha *pi, Pilha *pi2);
-Pilha* ordernar_pilha(Pilha *pi);
 void mostrar(Pilha *pi);
 int verificar_expressão(char []);
+Pilha* ordernar_pilha(int numbers[], int tamanho);
+void mostrar_por_idade(Pilha *pi);
 
 #endif

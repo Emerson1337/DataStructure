@@ -2,16 +2,22 @@
 #include "pilha_dinamica.h"
 
 int main(void) {
-  char teste[20] = ")(-))))-((((-(-)";
-  int k = verificar_expressão(teste);
+  int numbers[11] = {4,6,3,8,6,19,13,11,23,21,45};
+  Pilha *pi;
+  pi = ordernar_pilha(numbers, 11);
+  mostrar_por_idade(pi);
+
+  // char teste[20] = ")(-))))-((((-(-)";
+  // int k = verificar_expressão(teste);
+  
 
   
-  Pilha *pi;
-  Pilha *pi2;
-  Pessoa alguem;
-  Pessoa alguem2;
-  Pessoa alguem3;
-  Pessoa consultado;
+  // Pilha *pi;
+  // Pilha *pi2;
+  // Pessoa alguem;
+  // Pessoa alguem2;
+  // Pessoa alguem3;
+  // Pessoa consultado;
 
 
   // alguem.cpf = 99999999;

@@ -135,65 +135,58 @@ int pilhas_iguais(Pilha *pi, Pilha* pi2){
 
   return 1;
 };
-
-Pilha* ordernar_pilha(Pilha *pi){
-  if(pi == NULL){
-    return 0;
-  }
-  Pessoa pessoa;
-  Pilha* piAux = criar_pilha();
-  Elem *aux = *pi;
-  while(!pilha_vazia(pi)){
-    consultar_pilha(pi, &pessoa);
-    remover_pilha(pi);
-    inserir_pilha(piAux, pessoa);
-  }
-
-  
-  Elem *aux2 = *piAux, *anterior;
-  while(!pilha_vazia(&aux2)){
-    if(pilha_vazia(pi)){
-      inserir_pilha(pi, (*piAux)->dados);
-      remover_pilha(&aux2);
+//as pessoas serão ordenadas pela idade
+Pilha* ordernar_pilha(int numbers[], int tamanho){
+  Pilha *pi = criar_pilha();
+  Pilha *pi2 = criar_pilha();
+  int x = 0; //variavel para percorrer o array
+  Pessoa dados;
+  Pessoa aux;
+  while(x != tamanho){
+    dados.idade = numbers[x]; //armazenando os valores do vetor no campo idade da pessoa.
+    if(pilha_vazia(pi)){ //se a pilha estiver vazia, insira no inicio
+      inserir_pilha(pi, dados);
+      x++;
       continue;
     }
-
-    anterior = *pi;
-    aux = *pi;
-    while((*aux2).dados.cpf < (aux)->dados.cpf && (aux)->prox != NULL){
-      anterior = aux;
-      aux = aux->prox;
+    //verificando se o valor do vetor é maior que o último da pilha "pi", se for, então é removido e passado para a "pi2".
+    while(numbers[x] > (*pi)->dados.idade && (*pi)->prox != NULL){
+      consultar_pilha(pi, &aux);
+      inserir_pilha(pi2, aux);
+      remover_pilha(pi);
     }
-    if(aux2 > aux){
-      (aux2)->prox = aux;
-      if(anterior == aux){
-        *pi = aux2;
-      } else {
-        if(anterior == *pi){
-          (*pi)->prox = aux2;
-        } else {
-          anterior->prox = aux2;
-        }
-      }
-    } else {
-      aux2->prox = aux->prox;
-      if(anterior == *pi){
-        (*pi)->prox = aux;
-      } 
-      (aux)->prox = aux2;
+    //verificando se o motivo de ter parado o while acima foi pelo próximo de "pi" ser nulo, tendo em vista que temos um segmentation fault ao usar nos parâmetros (*pi) != NULL.
+    if(numbers[x] > (*pi)->dados.idade && (*pi)->prox == NULL){
+      consultar_pilha(pi, &aux);
+      inserir_pilha(pi2, aux);
+      remover_pilha(pi);
     }
-    remover_pilha(&aux2);
+    inserir_pilha(pi, dados);
+    //esvaziando a pi2 para a pi.
+    while(*pi2 != NULL){
+      consultar_pilha(pi2, &aux);
+      inserir_pilha(pi, aux);
+      remover_pilha(pi2);
+    }
+    x++;
   }
-
-  printf("%d", (*pi)->prox->dados.cpf);
   return pi;
 };
 //exibindo todos os cpfs da pilha
 void mostrar(Pilha *pi){
   Elem *aux = *pi;
-  printf("\nMostrando cpfs da pilha\n\n");
+  printf("\nMostrando CPFs da pilha\n\n");
   while(aux != NULL){
     printf("%d\n", aux->dados.cpf);
+    aux = aux->prox;
+  }
+}
+
+void mostrar_por_idade(Pilha *pi){
+  Elem *aux = *pi;
+  printf("\nMostrando idades da pilha\n\n");
+  while(aux != NULL){
+    printf("%d\n", aux->dados.idade);
     aux = aux->prox;
   }
 }
