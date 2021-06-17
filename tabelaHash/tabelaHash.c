@@ -9,22 +9,6 @@
 //   struct Pessoa **itens;
 // };
 
-//tipo do hash endSeparado
-struct hash {
-  int qtd, TABLE_SIZE;
-  struct elemento **itens;
-};
-
-
-//tipo do elemento na lista
-struct elemento {
-  struct Pessoa dados;
-  struct elemento *prox;
-};
-
-typedef struct elemento Elem;
-
-
 // Hash* criar_hash(int TABLE_SIZE){
 //   Hash *ha = (Hash*) malloc(sizeof(Hash)); //criando o ponteiro da tabela completa
 //   if(ha != NULL){
@@ -196,6 +180,22 @@ typedef struct elemento Elem;
 // }
 
 
+
+//tipo do hash endSeparado
+struct hash {
+  int qtd, TABLE_SIZE;
+  struct elemento **itens;
+};
+
+
+//tipo do elemento na lista
+struct elemento {
+  struct Pessoa dados;
+  struct elemento *prox;
+};
+
+typedef struct elemento Elem;
+
 //TABELA COM ENCADEAMENTO SEPARADO:
 
 Hash* criar_hash(int TABLE_SIZE){
@@ -326,12 +326,26 @@ int buscar_hash_encadSep(Hash *ha, int cpf, struct Pessoa *p1){
     return 0;
 };
 
+//Excluindo lista
+void destruir_lista(Lista li){
+  if(li != NULL){
+    Elem* no;
+    while((li) != NULL){
+      no = li;
+      li = (li)->prox;
+      free(no);
+    }
+    free(li);
+  }
+}
+
 int destruir_hash(Hash *ha){
   if(ha == NULL){
     return 0; //verificando se a tabela existe
   }
   for(int i = 0; i < ha->TABLE_SIZE; i++){
-    free(ha->itens[i]); //limpando cada celula da tabela
+    destruir_lista(ha->itens[i]);
+    //limpando cada celula da tabela
   }
   free(ha->itens); //destruindo o array
   free(ha); //destruindo a tabela

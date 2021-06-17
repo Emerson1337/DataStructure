@@ -29,6 +29,8 @@ int main(void) {
 
   mostrar_tabela_encadSep(ha);
   destruir_hash(ha);
+  mostrar_tabela_encadSep(ha);
+
 
   // if(buscar_hash_encadSep(ha, 2342, &alguem)){
   //   printf("\nPessoa buscada, CPF: %d \n", alguem.cpf);
