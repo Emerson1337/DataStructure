@@ -126,9 +126,11 @@ class ArvBB(ArvB):
     return biggestValue
 
   #conta todos os nos da arvore
-  def contadorNos(self, node=None):
-    if node is None:
+  def contadorNos(self, node=0):
+    if node == 0:
       return 0
+    if node is None:
+      node = self.root
     else:
       countEsq = self.contadorNos(node.left);
       countDir = self.contadorNos(node.right);
@@ -209,4 +211,17 @@ class ArvBB(ArvB):
     qtdNos = self.contadorNos(node)
     #a diferenca significa os nulls
     return nosCompBinaria - qtdNos
-    
+  
+  def isStrictlyBinary(self, node=0):
+    if node == 0:
+      node = self.root
+    if node is None:
+      return True
+      
+    if node.right is not None and node.left is None:
+      return False
+    elif node.right is None and node.left is not None:
+      return False
+
+    self.isStrictlyBinary(node.left)
+    self.isStrictlyBinary(node.right)
