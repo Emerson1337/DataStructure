@@ -215,13 +215,10 @@ class ArvBB(ArvB):
   def isStrictlyBinary(self, node=0):
     if node == 0:
       node = self.root
-    if node is None:
-      return True
-      
-    if node.right is not None and node.left is None:
-      return False
-    elif node.right is None and node.left is not None:
-      return False
 
-    self.isStrictlyBinary(node.left)
-    self.isStrictlyBinary(node.right)
+    if node.right is None and node.left is None:
+      return 1
+    if node.right and node.left:
+      return self.isStrictlyBinary(node.left) and self.isStrictlyBinary(node.right)
+    
+    return 0      
