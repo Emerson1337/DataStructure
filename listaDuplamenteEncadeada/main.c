@@ -4,7 +4,8 @@
 
 //PARA TESTAR CADA FUNCIONALIDADE, DESCOMENTE OS TRECHOS DE CÓDIGO ABAIXO DO COMENTÁRIO QUE O EXPLICA.
 
-int main(void) {
+int main(void)
+{
   Lista *li;
   Lista l2;
   Pessoa alguem;
@@ -16,7 +17,7 @@ int main(void) {
   char nomeVar[30] = "Emerson";
   human.nome[29] = nomeVar[29];
   human.idade = 19;
-  human.cpf = 99999999;
+  human.cpf = 999999988;
 
   char teste[30] = "Ana Luiza";
   human2.nome[29] = nomeVar[29];
@@ -27,7 +28,7 @@ int main(void) {
   human3.nome[29] = nomeVar[29];
   human3.idade = 19;
   human3.cpf = 99999999;
-  
+
   char teste3[30] = "Lula";
   human4.nome[29] = nomeVar[29];
   human4.idade = 19;
@@ -38,7 +39,7 @@ int main(void) {
   inserir_final(li, human2);
   inserir_final(li, human3);
   inserir_final(li, human4);
-  
+
   //UTILIZADOS PARA TESTAR REMOÇÃO DE REPETIDOS
 
   //olhando os elementos antes da remoção lista Li
@@ -47,14 +48,14 @@ int main(void) {
   printf("Quem é o primeiro elemento: %d\n", alguem.cpf);
   buscar_lista_pos(li, 2, &alguem);
   printf("Quem é o segundo elemento: %d\n", alguem.cpf);
-  buscar_lista_pos(li, 3, &alguem);
+  buscar_lista_pos(li, 2, &alguem);
   printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
   buscar_lista_pos(li, 4, &alguem);
   printf("Quem é o quarto elemento: %d\n", alguem.cpf);
   printf("tamanho da lista antes de remover repetidos: %d\n\n", tamanho_lista(li));
 
   remover_repetidos(li, &l2);
-  
+
   //Olhando os elementos da lista l2
   printf("Operação de remoção de repetidos funcionou lista l2\n");
   buscar_lista_pos(&l2, 1, &alguem);
@@ -62,14 +63,14 @@ int main(void) {
   buscar_lista_pos(&l2, 2, &alguem);
   printf("Quem é o segundo elemento: %d\n", alguem.cpf);
   int ok = buscar_lista_pos(&l2, 3, &alguem);
-  if(ok)
+  if (ok)
     printf("Quem é o terceiro elemento: %d\n", alguem.cpf);
   printf("tamanho da lista depois de remover repetidos: %d\n\n", tamanho_lista(&l2));
 
   int verif = verificar_igualdade(li, l2);
   printf("*Comparando as duas listas*\n");
   printf("São iguais: %d\n", verif);
-  
+
   //UTILIZADOS PARA TESTAR INVERSÃO DE LISTA
 
   // //olhando os elementos da lista Li
